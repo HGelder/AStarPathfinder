@@ -1,6 +1,6 @@
 import java.lang.reflect.Array;
-import java.util.Arrays; 
-import java.util.Scanner;
+import java.util.Arrays;
+import java.util.Scanner; 
 
 public class Main {
 
@@ -96,7 +96,7 @@ public class Main {
         int rowNum = (int)Array.get(cell, 0);
         int colNum = (int)Array.get(cell, 1);
 
-        String tileContents = gameBoard.getTile(rowNum, colNum);
+        String tileContents = gameBoard.getTile(rowNum, colNum).getContents();
 
         if (object.equals("Player")) {
 
