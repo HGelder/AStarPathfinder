@@ -10,9 +10,7 @@ public class Node {
     private int f;
     private int g;
     private int h;
-
     private String contents;
-
     private Node parent;
     private NodeState state;
 
@@ -65,6 +63,9 @@ public class Node {
         this.parent = parent;
     }
 
+    public NodeState getState () {
+        return state;
+    }
     public void setState (String state) {
         if (state.equals("W")) {
             this.state = NodeState.WALKABLE;

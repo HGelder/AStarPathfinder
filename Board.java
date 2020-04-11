@@ -1,9 +1,9 @@
-public class Board { 
+public class Board {
 
     public final String space = "[ ]";
     public final int maxRows;
     public final int maxCols;
-    private Node[][] boardTiles;
+    public Node[][] boardTiles;
 
     public Board (int maxRows, int maxCols) {
         this.maxRows = maxRows;
@@ -15,6 +15,10 @@ public class Board {
                 boardTiles[row][col] = new Node(row, col, Node.NodeState.WALKABLE, "[ ]");
             }
         }
+    }
+    
+    public Node[][] getTiles() {
+        return boardTiles;
     }
 
     public Node getTile (int rowNumber, int colNumber) {
