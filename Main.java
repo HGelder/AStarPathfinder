@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+import java.lang.reflect.Array; 
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 public class Main {
 
     public static Board gameBoard;
-    public static Node currentNode;
+    public static Node currentNode; 
     public static Node startNode; 
     public static Node endNode; 
     public static Node[][] boardTiles; 
@@ -37,6 +37,7 @@ public class Main {
 
         ai.removeFromList("Open", currentNode);
         ai.addToList("Closed", currentNode);
+        ai.getPath(startNode, endNode, boardTiles);
     }
 
     public static void newGame (int maxRows, int maxCols) {
@@ -123,7 +124,7 @@ public class Main {
         if (object.equals("Player")) {
 
             if (tileContents.equals("[ ]")) {
-                endNode = new Node(rowNum, colNum, Node.NodeState.WALKABLE, "[P]"); 
+                endNode = new Node(rowNum, colNum, Node.NodeState.WALKABLE, "[P]");
                 gameBoard.setTile(rowNum, colNum, "[P]");
                 gameBoard.print();
             } else {

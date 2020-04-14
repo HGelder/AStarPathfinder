@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class AI {
@@ -24,7 +25,6 @@ public class AI {
             closed.add(node);
         }
     }
-
     public void removeFromList (String list, Node node) {
         if (list.equals("Open")) {
             open.remove(node);
@@ -51,5 +51,55 @@ public class AI {
             }
         }
         return result;
+    }
+
+    public List<Node> getPath(Node startNode, Node endNode, Node[][] boardTiles) {
+
+        List<Node> path = new ArrayList<>();
+        List<Node> neighbours = new ArrayList<>();
+        boolean endReached = false; 
+        Node currentNode = startNode;
+
+        for (int x = 0; x < boardTiles.length; x++) { 
+            for (int y = 0; y < boardTiles.length; y++) {
+                boardTiles[x][y].setH(Math.abs(endNode.getRow() - x) + Math.abs(endNode.getCol() - y));
+            }
+        }
+
+        while (!endReached) {
+
+            neighbours = getNeighbours(currentNode, boardTiles);
+            List<Integer> fCosts = new ArrayList<>();
+            
+            for (int i = 0; i < neighbours.size(); i++) {
+                if (neighbours.get(i).getState() != Node.NodeState.UNWALKABLE) {
+
+                    addToList("Open", neighbours.get(i));
+                    neighbours.get(i).setParent(currentNode);
+                    neighbours.get(i).setG(neighbours.get(i).getG() + 10);
+
+                    int fCost = neighbours.get(i).getG() + neighbours.get(i).getH();
+                    neighbours.get(i).setF(fCost);
+
+                    fCosts.add(fCost);
+                }
+            }
+
+            Collections.sort(fCosts);
+            int smallestFCost = fCosts.get(0);
+
+            for (int j = 0; j < open.size(); j++) {
+                if (open.get(j).getF() == smallestFCost) {
+                    addToList("Closed", currentNode);
+                    currentNode = open.get(j);
+                }
+            }
+
+            if (currentNode == endNode) {
+                endReached = true;
+            }
+        }
+        System.out.println("End reached");
+        return path;
     }
 }
