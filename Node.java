@@ -5,72 +5,73 @@ public class Node {
         UNWALKABLE
     }
 
-    private int row;
-    private int col; 
+    private int x; 
+    private int y; 
     private int f;
     private int g;
-    private int h;
+    private int h; 
     private String contents;
-    private Node parent;
+    private Node parent; 
     private NodeState state;
 
-    public Node (int row, int col, NodeState state, String value) {
-        this.row = row;
-        this.col = col;
+    public Node(int x, int y, NodeState state, String contents) {
+        this.x = x;
+        this.y = y;
         this.state = state;
-        this.contents = value;
+        this.contents = contents;
     }
 
-    public String getContents () {
+    public String getContents() {
         return contents;
     }
-    public void setContents (String value) {
-        this.contents = value;
+    public void setContents(String contents) {
+        this.contents = contents;
     }
 
-    public int getRow () {
-        return row;
+    public int getX() {
+        return x;
     }
-    public int getCol () {
-        return col;
+    public int getY() {
+        return y;
     }
 
-    public int getF () {
+    public int getF() {
         return f;
     }
-    public void setF (int f) {
+    public void setF(int f) {
         this.f = f;
     }
 
-    public int getG () {
+    public int getG() {
         return g;
     }
-    public void setG (int g) {
+    public void setG(int g) {
         this.g = g;
     }
-    
-    public int getH () {
+
+    public int getH() {
         return h;
     }
-    public void setH (int h) {
+    public void setH(int h) {
         this.h = h;
     }
 
-    public Node getParent () {
+    public Node getParent() {
         return parent;
     }
-    public void setParent (Node parent) {
+    public void setParent(Node parent) {
         this.parent = parent;
     }
 
-    public NodeState getState () {
+    public NodeState getState() {
         return state;
     }
-    public void setState (String state) {
+    public void setState(String state) {
         if (state.equals("W")) {
             this.state = NodeState.WALKABLE;
         } else if (state.equals("U")) {
             this.state = NodeState.UNWALKABLE;
         }
     }
+
 }

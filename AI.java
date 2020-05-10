@@ -8,16 +8,17 @@ public class AI {
     public Node endNode;
     public Board gameBoard;
     public Node[][] boardTiles;
+
     public List<Node> open = new ArrayList<>();
     public List<Node> closed = new ArrayList<>();
 
-    public AI (Node startNode, Node endNode, Board gameBoard, Node[][] boardTiles) {
+    public AI(Node startNode, Node endNode, Board gameBoard, Node[][] boardTiles) {
         this.startNode = startNode;
         this.endNode = endNode; 
         this.gameBoard = gameBoard;
         this.boardTiles = boardTiles;
     }
-    
+
     public void addToList (String list, Node node) {
         if (list.equals("Open")) {
             open.add(node);
@@ -33,44 +34,45 @@ public class AI {
         }
     }
 
-    public List<Node> getNeighbours (Node currentNode, Node[][] boardTiles) {
-        int row = currentNode.getRow();
-        int col = currentNode.getCol();
+    public List<Node> getNeighbours(Node currentNode, Node[][] boardTiles) {
 
-        int[] points = { row-1, col, row+1, col, row, col-1, row, col+1 };
+        int x = currentNode.getX();
+        int y = currentNode.getY();
 
-        List<Node> result = new ArrayList<>();
+        int[] coords = { x-1, y, x+1, y, x, y-1, x, y+1 };
 
-        for (int i = 0; i < points.length; i++) {
-            int x = points[i];
-            int y = points[++i];
+        List<Node> neighbours = new ArrayList<>();
 
-            if (x >= 0 && x < boardTiles.length 
-            && boardTiles[x][y].getState() == Node.NodeState.WALKABLE) {
-                result.add(boardTiles[x][y]);
-            }
+        for (int i = 0; i < coords.length; i++) {
+            int x1 = coords[i];
+            int y1 = coords[++i];
+
+            if (x1 >= 0 && x1 < boardTiles.length 
+             && y1 >= 0 && y1 < boardTiles[0].length
+             && boardTiles[x1][y1].getState() == Node.NodeState.WALKABLE) {
+                 neighbours.add(boardTiles[x1][y1]);
+             }
         }
-        return result;
+        return neighbours;
     }
 
     public List<Node> getPath(Node startNode, Node endNode, Node[][] boardTiles) {
 
         List<Node> path = new ArrayList<>();
         List<Node> neighbours = new ArrayList<>();
-        boolean endReached = false; 
+        boolean endReached = false;
         Node currentNode = startNode;
 
-        for (int x = 0; x < boardTiles.length; x++) { 
+        for (int x = 0; x < boardTiles.length; x++) {
             for (int y = 0; y < boardTiles.length; y++) {
-                boardTiles[x][y].setH(Math.abs(endNode.getRow() - x) + Math.abs(endNode.getCol() - y));
+                boardTiles[x][y].setH(Math.abs(endNode.getX() - x) + Math.abs(endNode.getY() - y));
             }
         }
 
         while (!endReached) {
-
             neighbours = getNeighbours(currentNode, boardTiles);
             List<Integer> fCosts = new ArrayList<>();
-            
+
             for (int i = 0; i < neighbours.size(); i++) {
                 if (neighbours.get(i).getState() != Node.NodeState.UNWALKABLE) {
 
@@ -90,6 +92,7 @@ public class AI {
 
             for (int j = 0; j < open.size(); j++) {
                 if (open.get(j).getF() == smallestFCost) {
+                    path.add(currentNode);
                     addToList("Closed", currentNode);
                     currentNode = open.get(j);
                 }
@@ -99,7 +102,13 @@ public class AI {
                 endReached = true;
             }
         }
-        System.out.println("End reached");
+        path.add(currentNode);
+        //Collections.reverse(path);
+        
+        for (int i = 0; i < path.size(); i++) {
+            System.out.println("row: " + (path.get(i).getX()+1) + ", col: " + (path.get(i).getY()+1));
+        }
+
         return path;
     }
 }
