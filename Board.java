@@ -1,48 +1,39 @@
 public class Board {
 
-    public final String space = "[ ]";
-    public final int maxRows;
-    public final int maxCols;
+    public final int maxX;
+    public final int maxY;
     public Node[][] boardTiles;
 
-    public Board (int maxRows, int maxCols) {
-        this.maxRows = maxRows;
-        this.maxCols = maxCols;
-        this.boardTiles = new Node[maxRows][maxCols];
+    public Board(int maxX, int maxY) {
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.boardTiles = new Node[maxX][maxY];
 
-        for (int row = 0; row < maxRows; row++) {
-            for (int col = 0; col < maxCols; col++) {
-                boardTiles[row][col] = new Node(row, col, Node.NodeState.WALKABLE, "[ ]");
+        for (int x = 0; x < maxX; x++) {
+            for (int y = 0; y < maxY; y++) {
+                boardTiles[x][y] = new Node(x, y, Node.NodeState.WALKABLE, "[ ]");
             }
         }
     }
-    
+
     public Node[][] getTiles() {
         return boardTiles;
     }
 
-    public Node getTile (int rowNumber, int colNumber) {
-        return this.boardTiles[rowNumber][colNumber];
+    public Node getTile(int x, int y) {
+        return this.boardTiles[x][y];
+    }
+    public void setTile(int x, int y, String contents) {
+        this.boardTiles[x][y].setContents(contents);
     }
 
-    public void setTile (int rowNumber, int colNumber, String value) {
-        this.boardTiles[rowNumber][colNumber].setContents(value);
-    }
-
-    public void clear () {
-        for (int rowNumber = 0; rowNumber < maxRows; rowNumber++) {
-            for (int colNumber = 0; colNumber < maxCols; colNumber++) {
-                setTile(rowNumber, colNumber, space);
-            }
-        }
-    }
-
-    public void print () {
-        for (int rowNumber = 0; rowNumber < maxRows; rowNumber++) {
-            for (int colNumber = 0; colNumber < maxCols; colNumber++) {
-                System.out.print(getTile(rowNumber, colNumber).getContents());
+    public void print() {
+        for (int x = 0; x < maxX; x++) {
+            for (int y = 0; y < maxY; y++) {
+                System.out.print(getTile(x, y).getContents());
             }
             System.out.println();
         }
     }
+    
 }

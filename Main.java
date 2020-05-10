@@ -1,7 +1,6 @@
-import java.lang.reflect.Array; 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.List;
 
 public class Main {
 
@@ -12,55 +11,42 @@ public class Main {
     public static Node[][] boardTiles; 
 
     private static Scanner userInput;
-    private static int boardSize = 5;
     private static int[] input = {0, 0};
-    private static List<Node> tempNeighbours; 
 
-    public static void main (String args[]) {
-        newGame(boardSize, boardSize);
+    public static void main(String args[]) {
+        newGame(5, 5);
+        boardTiles = gameBoard.getTiles();
+
         placeObject(getObjectCell("Player"), "Player");
         placeObject(getObjectCell("Enemy"), "Enemy");
-        placeObject(getObjectCell("Wall"), "Wall");
-        placeObject(getObjectCell("Wall"), "Wall");
-        placeObject(getObjectCell("Wall"), "Wall");
+        //placeObject(getObjectCell("Wall"), "Wall");
+        //placeObject(getObjectCell("Wall"), "Wall");
+        //placeObject(getObjectCell("Wall"), "Wall");
 
-        boardTiles = gameBoard.getTiles();
-        AI ai = new AI (startNode, endNode, gameBoard, boardTiles);
-
-        currentNode = startNode;
-        tempNeighbours = ai.getNeighbours(startNode, boardTiles);
-        
-        for (int i = 0; i < tempNeighbours.size(); i++) {
-            ai.addToList("Open", tempNeighbours.get(i));
-            tempNeighbours.get(i).setParent(currentNode);
-        }
-
-        ai.removeFromList("Open", currentNode);
-        ai.addToList("Closed", currentNode);
+        AI ai = new AI(startNode, endNode, gameBoard, boardTiles);
         ai.getPath(startNode, endNode, boardTiles);
     }
 
-    public static void newGame (int maxRows, int maxCols) {
-        gameBoard = new Board(maxRows, maxCols);
-        gameBoard.clear();
+    public static void newGame(int xSize, int ySize) {
+        gameBoard = new Board(xSize, ySize);
         gameBoard.print();
     }
-
-    public static int[] getObjectCell (String object) {
+    
+    public static int[] getObjectCell(String object) {
 
         userInput = new Scanner(System.in);
-        
+
         if (object.equals("Player")) {
 
-            System.out.print("Enter row number (1-5) in which to place player: ");
+            System.out.print("Enter row (1-5) in which to place player: ");
             input[0] = userInput.nextInt();
-            
+
             while (input[0] < 1 || input[0] > 5) {
                 System.out.println("Please enter a number between 1 and 5");
                 input[0] = userInput.nextInt();
             }
 
-            System.out.print("Enter col number (1-5) in which to place player: ");
+            System.out.print("Enter column (1-5) in which to place player: ");
             input[1] = userInput.nextInt();
 
             while (input[1] < 1 || input[1] > 5) {
@@ -72,7 +58,7 @@ public class Main {
 
         } else if (object.equals("Enemy")) {
 
-            System.out.print("Enter row number (1-5) in which to place enemy: ");
+            System.out.print("Enter row (1-5) in which to place enemy: ");
             input[0] = userInput.nextInt();
 
             while (input[0] < 1 || input[0] > 5) {
@@ -80,7 +66,7 @@ public class Main {
                 input[0] = userInput.nextInt();
             }
 
-            System.out.print("Enter col number (1-5) in which to place enemy: "); 
+            System.out.print("Enter column (1-5) in which to place enemy: ");
             input[1] = userInput.nextInt();
 
             while (input[1] < 1 || input[1] > 5) {
@@ -92,7 +78,7 @@ public class Main {
 
         } else if (object.equals("Wall")) {
 
-            System.out.print("Enter row number (1-5) in which to place wall: ");
+            System.out.print("Enter row (1-5) in which to place wall: ");
             input[0] = userInput.nextInt();
 
             while (input[0] < 1 || input[0] > 5) {
@@ -100,7 +86,7 @@ public class Main {
                 input[0] = userInput.nextInt();
             }
 
-            System.out.print("Enter col number (1-5) in which to place wall: ");
+            System.out.print("Enter column (1-5) in which to place wall: ");
             input[1] = userInput.nextInt();
 
             while (input[1] < 1 || input[1] > 5) {
@@ -109,23 +95,24 @@ public class Main {
             }
 
             System.out.println("Wall (X) cell chosen: " + Arrays.toString(input));
+
         }
         return input;
     }
 
-    public static void placeObject (int[] cell, String object) {
+    public static void placeObject(int[] cell, String object) {
 
-        int rowNum = (int)Array.get(cell, 0) - 1;
-        int colNum = (int)Array.get(cell, 1) - 1;
+        int x = (int)Array.get(cell, 0) - 1;
+        int y = (int)Array.get(cell, 1) - 1;
 
-        String tileContents = gameBoard.getTile(rowNum, colNum).getContents();
-        Node.NodeState state = gameBoard.getTile(rowNum, colNum).getState(); 
+        String tileContents = gameBoard.getTile(x, y).getContents();
+        Node.NodeState state = gameBoard.getTile(x, y).getState();
 
         if (object.equals("Player")) {
 
             if (tileContents.equals("[ ]")) {
-                endNode = new Node(rowNum, colNum, Node.NodeState.WALKABLE, "[P]");
-                gameBoard.setTile(rowNum, colNum, "[P]");
+                endNode = gameBoard.getTile(x, y);
+                gameBoard.setTile(x, y, "[P]");
                 gameBoard.print();
             } else {
                 System.out.println("Cell already occupied. Please choose an empty cell.");
@@ -133,26 +120,25 @@ public class Main {
             }
 
         } else if (object.equals("Enemy")) {
-            
+
             if (tileContents.equals("[ ]")) {
-                startNode = new Node(rowNum, colNum, Node.NodeState.WALKABLE, "[E]"); 
-                gameBoard.setTile(rowNum, colNum, "[E]");
+                startNode = gameBoard.getTile(x, y);
+                gameBoard.setTile(x, y, "[E]");
                 gameBoard.print();
             } else {
                 System.out.println("Cell already occupied. Please choose an empty cell.");
                 placeObject(getObjectCell("Enemy"), "Enemy");
             }
 
-        } else if (object.equals("Wall")) {
+        } else if (object.equals("Wall")) { 
 
             if (tileContents.equals("[ ]")) {
-                state = Node.NodeState.UNWALKABLE; 
-                gameBoard.setTile(rowNum, colNum, "[X]");
+                state = Node.NodeState.UNWALKABLE;
+                gameBoard.setTile(x, y, "[X]");
                 gameBoard.print();
             } else {
                 System.out.println("Cell already occupied. Please choose an empty cell.");
                 placeObject(getObjectCell("Wall"), "Wall");
-
             }
         }
     }
