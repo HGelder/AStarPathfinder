@@ -1,5 +1,6 @@
-public class Node {
+public class Node { 
 
+    // denotes whether a node is already occupied
     enum NodeState {
         WALKABLE,
         UNWALKABLE
@@ -14,6 +15,7 @@ public class Node {
     private Node parent; 
     private NodeState state;
 
+    // keeps record of node coordinates, whether it contains an object (occupied) and if so, what the object is 
     public Node(int x, int y, NodeState state, String contents) {
         this.x = x;
         this.y = y;
@@ -21,6 +23,7 @@ public class Node {
         this.contents = contents;
     }
 
+    // get/set objects occupying nodes
     public String getContents() {
         return contents;
     }
@@ -28,6 +31,7 @@ public class Node {
         this.contents = contents;
     }
 
+    // get/set node coordinates
     public int getX() {
         return x;
     }
@@ -35,6 +39,7 @@ public class Node {
         return y;
     }
 
+    // get/set node f cost
     public int getF() {
         return f;
     }
@@ -42,6 +47,7 @@ public class Node {
         this.f = f;
     }
 
+    // get/set node g cost
     public int getG() {
         return g;
     }
@@ -49,6 +55,7 @@ public class Node {
         this.g = g;
     }
 
+    // get/set node h cost
     public int getH() {
         return h;
     }
@@ -56,6 +63,7 @@ public class Node {
         this.h = h;
     }
 
+    // get/set node parent
     public Node getParent() {
         return parent;
     }
@@ -63,6 +71,7 @@ public class Node {
         this.parent = parent;
     }
 
+    // get/set node occupancy 
     public NodeState getState() {
         return state;
     }

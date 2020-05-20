@@ -1,4 +1,4 @@
-import java.lang.reflect.Array;
+import java.lang.reflect.Array; 
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -19,19 +19,21 @@ public class Main {
 
         placeObject(getObjectCell("Player"), "Player");
         placeObject(getObjectCell("Enemy"), "Enemy");
-        //placeObject(getObjectCell("Wall"), "Wall");
-        //placeObject(getObjectCell("Wall"), "Wall");
-        //placeObject(getObjectCell("Wall"), "Wall");
+        placeObject(getObjectCell("Wall"), "Wall");
+        placeObject(getObjectCell("Wall"), "Wall");
+        placeObject(getObjectCell("Wall"), "Wall");
 
         AI ai = new AI(startNode, endNode, gameBoard, boardTiles);
         ai.getPath(startNode, endNode, boardTiles);
     }
 
+    // begins a new game using a new instance of Board
     public static void newGame(int xSize, int ySize) {
         gameBoard = new Board(xSize, ySize);
         gameBoard.print();
     }
-    
+
+    // receives user input for where to place objects on the gameboard
     public static int[] getObjectCell(String object) {
 
         userInput = new Scanner(System.in);
@@ -100,6 +102,7 @@ public class Main {
         return input;
     }
 
+    // utilises user input received above to place objects on the gameboard
     public static void placeObject(int[] cell, String object) {
 
         int x = (int)Array.get(cell, 0) - 1;

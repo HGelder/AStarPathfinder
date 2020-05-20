@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class AI {
         this.boardTiles = boardTiles;
     }
 
+    // add/remove nodes from open/closed lists
     public void addToList (String list, Node node) {
         if (list.equals("Open")) {
             open.add(node);
@@ -34,6 +35,7 @@ public class AI {
         }
     }
 
+    // fetches neighbouring nodes of given node
     public List<Node> getNeighbours(Node currentNode, Node[][] boardTiles) {
 
         int x = currentNode.getX();
@@ -56,6 +58,7 @@ public class AI {
         return neighbours;
     }
 
+    // calculates and prints the path
     public List<Node> getPath(Node startNode, Node endNode, Node[][] boardTiles) {
 
         List<Node> path = new ArrayList<>();
@@ -103,8 +106,8 @@ public class AI {
             }
         }
         path.add(currentNode);
-        //Collections.reverse(path);
-        
+
+        System.out.println("Completed path: ");
         for (int i = 0; i < path.size(); i++) {
             System.out.println("row: " + (path.get(i).getX()+1) + ", col: " + (path.get(i).getY()+1));
         }

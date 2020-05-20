@@ -1,14 +1,16 @@
-public class Board {
+public class Board { 
 
     public final int maxX;
     public final int maxY;
     public Node[][] boardTiles;
 
+    // keeps record of gameboard tiles
     public Board(int maxX, int maxY) {
         this.maxX = maxX;
         this.maxY = maxY;
         this.boardTiles = new Node[maxX][maxY];
-
+        
+        // creates a gameboard consisting of nodes
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
                 boardTiles[x][y] = new Node(x, y, Node.NodeState.WALKABLE, "[ ]");
@@ -16,10 +18,12 @@ public class Board {
         }
     }
 
+    // returns the entire gameboard
     public Node[][] getTiles() {
         return boardTiles;
     }
 
+    // get/set tile (node) occupancy
     public Node getTile(int x, int y) {
         return this.boardTiles[x][y];
     }
@@ -27,6 +31,7 @@ public class Board {
         this.boardTiles[x][y].setContents(contents);
     }
 
+    // print the gameboard
     public void print() {
         for (int x = 0; x < maxX; x++) {
             for (int y = 0; y < maxY; y++) {
